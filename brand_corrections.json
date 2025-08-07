@@ -1,0 +1,78 @@
+{
+  "brand_names": [
+    "Acopa", "Adourne", "AvaMix", "Avantco Equipment", "Avantco Ice Machines",
+    "Avantco Refrigeration", "AvaTek", "Backyard Pro", "Baker's Lane", "Boltic",
+    "Carnival King", "CaterGator", "Certifications Guide", "Choice", "Clark Associates",
+    "Clark Associates Charitable Foundation", "Cooking Performance Group",
+    "Emperor's Select", "Estella Equipment", "Fryclone", "Garde",
+    "Lancaster Table & Seating", "Lavex", "MainStreet Equipment", "Narvon Beverage",
+    "New Roots", "Regency Equipment", "Schräf", "ServIt", "Vigor", "Waterloo",
+    "WebstaurantStore", "Boltic Fans"
+  ],
+  "correction_examples": [
+    {
+      "incorrect": "We're using the new Balltic fans for cooling.",
+      "correct": "We're using the new Boltic fans for cooling.",
+      "brands_corrected": ["Boltic"]
+    },
+    {
+      "incorrect": "The Choise stainless steel table is perfect.",
+      "correct": "The Choice stainless steel table is perfect.",
+      "brands_corrected": ["Choice"]
+    },
+    {
+      "incorrect": "AvatekTek equipment provides reliable performance.",
+      "correct": "AvaTek equipment provides reliable performance.",
+      "brands_corrected": ["AvaTek"]
+    },
+    {
+      "incorrect": "Webstaurant Store has everything you need.",
+      "correct": "WebstaurantStore has everything you need.",
+      "brands_corrected": ["WebstaurantStore"]
+    },
+    {
+      "incorrect": "The Avanteco refrigeration unit works great.",
+      "correct": "The Avantco refrigeration unit works great.",
+      "brands_corrected": ["Avantco"]
+    },
+    {
+      "incorrect": "Clark associates provides quality service.",
+      "correct": "Clark Associates provides quality service.",
+      "brands_corrected": ["Clark Associates"]
+    },
+    {
+      "incorrect": "Lavex supplies and backyard pro grills are available.",
+      "correct": "Lavex supplies and Backyard Pro grills are available.", 
+      "brands_corrected": ["Lavex", "Backyard Pro"]
+    },
+    {
+      "incorrect": "The vigor equipment and emperor select items work well.",
+      "correct": "The Vigor equipment and Emperor's Select items work well.",
+      "brands_corrected": ["Vigor", "Emperor's Select"]
+    },
+    {
+      "incorrect": "Acopa dishes and carnival king supplies are in stock.",
+      "correct": "Acopa dishes and Carnival King supplies are in stock.",
+      "brands_corrected": ["Acopa", "Carnival King"]
+    },
+    {
+      "incorrect": "Narvon beverage dispensers and MainStreet equipment available.",
+      "correct": "Narvon Beverage dispensers and MainStreet Equipment available.",
+      "brands_corrected": ["Narvon Beverage", "MainStreet Equipment"]
+    }
+  ],
+  "common_misspellings": {
+    "boltic": ["balltic", "baltic", "boltech", "boltik"],
+    "choice": ["choise", "choyse", "chioce"],
+    "avatek": ["avatech", "avetek", "avetec"],
+    "webstaurantstore": ["webstaurant store", "web restaurant store", "webstaurent"],
+    "avantco": ["avanteco", "aventco", "avanco"],
+    "clark associates": ["clark associate", "clarke associates"],
+    "backyard pro": ["backyard pro", "backyardpro", "back yard pro"],
+    "vigor": ["vigour", "vigger", "vigr"],
+    "emperors select": ["emperor select", "emperors selection", "emperor's selection"],
+    "carnival king": ["carnival kong", "carneval king", "carnival kng"],
+    "narvon beverage": ["narvon beverages", "narvin beverage", "narbon beverage"],
+    "mainstreet equipment": ["main street equipment", "mainstreet equipement", "main-street equipment"]
+  }
+}
