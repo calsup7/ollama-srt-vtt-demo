@@ -123,7 +123,8 @@ class VideoHandler(FileSystemEventHandler):
                 stderr=subprocess.PIPE,
                 text=True,
                 cwd=PROJECT_ROOT,
-                encoding='utf-8' # Be explicit about encoding for subprocess I/O
+                encoding='utf-8',
+                errors='replace'  # Handle encoding errors gracefully
             )
             stdout, stderr = process.communicate()
 
