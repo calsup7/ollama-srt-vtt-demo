@@ -10,13 +10,14 @@ from watchdog.events import FileSystemEventHandler
 # Assuming watch_folder.py is in "SRT from Video Test Improved" directory
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
-INBOX_DIR = os.path.join(PROJECT_ROOT, "INBOX")
-VIDEOS_TO_PROCESS_DIR = os.path.join(PROJECT_ROOT, "videos_to_process")
-SRT_OUTPUTS_DIR = os.path.join(PROJECT_ROOT, "srt_outputs")
-FINAL_OUTPUT_DIR = os.path.join(PROJECT_ROOT, "FINAL_OUTPUT")
-TEMP_AUDIO_DIR = os.path.join(PROJECT_ROOT, "temp_audio") # For reference
+FILESHARE = os.path.join(r"\\therestaurantstore.com", "video", "Video", "AI-Transcribing")
+INBOX_DIR = os.path.join(FILESHARE, "INBOX")
+VIDEOS_TO_PROCESS_DIR = os.path.join(FILESHARE, "videos_to_process")
+SRT_OUTPUTS_DIR = os.path.join(FILESHARE, "srt_outputs")
+FINAL_OUTPUT_DIR = os.path.join(FILESHARE, "FINAL_OUTPUT")
+TEMP_AUDIO_DIR = os.path.join(FILESHARE, "temp_audio")
 
-VENV_PYTHON_EXECUTABLE = "python"  # Use system Python since venv not set up
+VENV_PYTHON_EXECUTABLE = os.path.join(PROJECT_ROOT, ".venv", "Scripts", "python.exe")
 TRANSCRIPTION_SCRIPT_PATH = os.path.join(PROJECT_ROOT, "transcribe_videos_ollama.py")
 
 VIDEO_EXTENSIONS = ('.mp4', '.mov', '.mkv', '.avi', '.webm', '.wmv', '.flv')
@@ -24,7 +25,8 @@ VIDEO_EXTENSIONS = ('.mp4', '.mov', '.mkv', '.avi', '.webm', '.wmv', '.flv')
 # Setup logging
 logging.basicConfig(level=logging.INFO, 
                     format='%(asctime)s - %(levelname)s - %(message)s',
-                    datefmt='%Y-%m-%d %H:%M:%S')
+                    datefmt='%Y-%m-%d %H:%M:%S',
+		    filename= os.path.join(FILESHARE, 'transcription-log.txt'))
 
 class VideoHandler(FileSystemEventHandler):
     def wait_for_file_stability(self, file_path, stability_checks=3, check_interval=3):

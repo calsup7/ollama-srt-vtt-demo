@@ -1,0 +1,1 @@
+C:\work\Video-AI-Transcribing-v2\.venv\Scripts\python.exe C:\work\Video-AI-Transcribing-v2\watch_folder.py

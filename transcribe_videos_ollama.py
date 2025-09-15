@@ -9,21 +9,25 @@ from typing import List, Dict, Tuple, Optional
 from tqdm import tqdm
 import pysubs2
 import ollama
+from dotenv import load_dotenv
 
 # ---------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------
-VIDEO_DIR      = "videos_to_process"
-SRT_DIR        = "srt_outputs"
-TEMP_AUDIO_DIR = "temp_audio"
+FILESHARE = os.path.join(r"\\therestaurantstore.com", "video", "Video", "AI-Transcribing")
+VIDEO_DIR      = os.path.join(FILESHARE, "videos_to_process")
+SRT_DIR        = os.path.join(FILESHARE, "srt_outputs")
+TEMP_AUDIO_DIR = os.path.join(FILESHARE, "temp_audio")
 
 WHISPER_MODEL  = "small"     # faster-whisper model size "small", "medium", "large"
 DEVICE         = "cpu"        # "cpu" or "cuda"
 COMPUTE_TYPE   = "int8"       # "int8" for CPU
+load_dotenv()
+API_KEY = os.getenv('OLLAMA_API_KEY')
 
 # Ollama configuration
-OLLAMA_MODEL = "llama3.1:8b"
-OLLAMA_BASE_URL = "http://localhost:11434"
+OLLAMA_MODEL = "llama3.1:latest"
+OLLAMA_BASE_URL = "https://corp-ollama.clarkinc.biz"
 
 # Load brand corrections database
 def load_brand_corrections() -> Dict:
@@ -152,7 +156,7 @@ class OllamaNER:
     def __init__(self, model: str = OLLAMA_MODEL, base_url: str = OLLAMA_BASE_URL):
         self.model = model
         self.base_url = base_url
-        self.client = ollama.Client(host=base_url)
+        self.client = ollama.Client(host=base_url, headers={'Authorization': 'Bearer '+API_KEY})
         self.brand_data = BRAND_DATA
         
     def check_ollama_health(self) -> bool:
