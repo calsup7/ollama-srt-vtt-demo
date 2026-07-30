@@ -5,6 +5,11 @@ import time
 import logging
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
+import win32serviceutil
+import win32service
+import win32event
+import servicemanager
+import socket
 
 # --- Configuration ---
 # Assuming watch_folder.py is in "SRT from Video Test Improved" directory
@@ -181,25 +186,56 @@ class VideoHandler(FileSystemEventHandler):
         logging.info(f"Processing finished for '{file_name}'.")
         logging.info("-" * 40)
 
+class WatcherSvc (win32serviceutil.ServiceFramework):
+    _svc_name_ = "Video-Folder-Watcher-Service"
+    _svc_display_name_ = "Video-Folder-Watcher-Service"
+    
+    def __init__(self,args):
+        win32serviceutil.ServiceFramework.__init__(self,args)
+        self.stop_event = win32event.CreateEvent(None,0,0,None)
+        socket.setdefaulttimeout(60)
+        self.stop_requested = False
+
+    def SvcStop(self):
+        self.ReportServiceStatus(win32service.SERVICE_STOP_PENDING)
+        win32event.SetEvent(self.stop_event)
+        logging.info('Stopping service ...')
+        self.stop_requested = True
+
+    def SvcDoRun(self):
+        servicemanager.LogMsg(
+            servicemanager.EVENTLOG_INFORMATION_TYPE,
+            servicemanager.PYS_SERVICE_STARTED,
+            (self._svc_name_,'')
+        )
+        self.main()
+
+    def main(self):
+	    for dir_path in [INBOX_DIR, VIDEOS_TO_PROCESS_DIR, SRT_OUTPUTS_DIR, FINAL_OUTPUT_DIR, TEMP_AUDIO_DIR]:
+	        os.makedirs(dir_path, exist_ok=True)
+	
+	    logging.info(f"Starting hot folder monitor on: {INBOX_DIR}")
+	    event_handler = VideoHandler()
+	    observer = Observer()
+	    observer.schedule(event_handler, INBOX_DIR, recursive=False)
+	    observer.start()
+	
+	    try:
+	        while True:
+	            time.sleep(5)
+	    except KeyboardInterrupt:
+	        logging.info("Stopping hot folder monitor.")
+	        observer.stop()
+	    except Exception as e:
+	        logging.error(f"An unexpected error occurred in the observer: {e}")
+	        observer.stop()
+	    observer.join()
+	    logging.info("Hot folder monitor shut down.")
 
 if __name__ == "__main__":
-    for dir_path in [INBOX_DIR, VIDEOS_TO_PROCESS_DIR, SRT_OUTPUTS_DIR, FINAL_OUTPUT_DIR, TEMP_AUDIO_DIR]:
-        os.makedirs(dir_path, exist_ok=True)
-
-    logging.info(f"Starting hot folder monitor on: {INBOX_DIR}")
-    event_handler = VideoHandler()
-    observer = Observer()
-    observer.schedule(event_handler, INBOX_DIR, recursive=False)
-    observer.start()
-
-    try:
-        while True:
-            time.sleep(5)
-    except KeyboardInterrupt:
-        logging.info("Stopping hot folder monitor.")
-        observer.stop()
-    except Exception as e:
-        logging.error(f"An unexpected error occurred in the observer: {e}")
-        observer.stop()
-    observer.join()
-    logging.info("Hot folder monitor shut down.")
+    if len(sys.argv) == 1:
+        servicemanager.Initialize()
+        servicemanager.PrepareToHostSingle(WatcherSvc)
+        servicemanager.StartServiceCtrlDispatcher()
+    else:
+        win32serviceutil.HandleCommandLine(WatcherSvc)
