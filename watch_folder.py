@@ -13,8 +13,7 @@ import socket
 
 # --- Configuration ---
 # Assuming watch_folder.py is in "SRT from Video Test Improved" directory
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-
+PROJECT_ROOT = os.path.join(r"C:\work", "Video-AI-Transcribing-v2")
 FILESHARE = os.path.join(r"\\therestaurantstore.com", "video", "Video", "AI-Transcribing")
 INBOX_DIR = os.path.join(FILESHARE, "INBOX")
 VIDEOS_TO_PROCESS_DIR = os.path.join(FILESHARE, "videos_to_process")
